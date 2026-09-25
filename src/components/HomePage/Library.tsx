@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,9 +7,14 @@ interface Workout {
   image: string;
   muscleGroups: string[];
   equipment: string;
+  difficulty: string;
   duration: number;
   caloriesBurned: number;
+  sets: number;
+  reps: string;
   rating: number;
+  description: string;
+  instructions: string[];
 }
 
 const getWorkouts = async (): Promise<Workout[]> => {
@@ -43,19 +47,21 @@ const Library = async () => {
           </h2>
 
           <p className="mt-3 text-gray-400">
-            Twelve lifts covering every major muscle group.
+            Explore workouts for every major muscle group.
           </p>
         </div>
 
         {/* Workout Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+
           {workouts.map((workout) => (
             <Link
               key={workout.id}
               href={`/workouts/${workout.id}`}
               className="group overflow-hidden rounded-xl border border-white/10 bg-[#202020] transition duration-300 hover:-translate-y-1 hover:border-[#ccff00]/50"
             >
-              {/* Workout Image */}
+
+              {/* Image */}
               <div className="relative aspect-4/3 overflow-hidden bg-[#252525]">
                 <Image
                   src={workout.image}
@@ -85,22 +91,45 @@ const Library = async () => {
                   {workout.name}
                 </h3>
 
+                {/* Difficulty */}
+                <p className="mt-2 text-sm font-medium text-[#ccff00]">
+                  {workout.difficulty}
+                </p>
+
                 {/* Equipment */}
                 <p className="mt-2 text-sm text-gray-400">
                   {workout.equipment}
                 </p>
 
-                {/* Stats */}
-                <div className="mt-5 grid grid-cols-3 border-t border-white/10 pt-4 text-xs text-gray-400">
+                {/* Description */}
+                <p className="mt-3 line-clamp-2 text-sm text-gray-400">
+                  {workout.description}
+                </p>
+
+                {/* Workout Stats */}
+                <div className="mt-5 grid grid-cols-2 gap-3 border-t border-white/10 pt-4 text-xs text-gray-400">
+
                   <span>
                     ⏱️ {workout.duration} min
                   </span>
 
-                  <span className="text-center">
+                  <span>
                     🔥 {workout.caloriesBurned} kcal
                   </span>
 
-                  <span className="text-right">
+                  <span>
+                    🏋️ {workout.sets} sets
+                  </span>
+
+                  <span>
+                    🔁 {workout.reps} reps
+                  </span>
+
+                </div>
+
+                {/* Rating */}
+                <div className="mt-4 border-t border-white/10 pt-4">
+                  <span className="text-sm">
                     ⭐ {workout.rating}
                   </span>
                 </div>
@@ -108,8 +137,8 @@ const Library = async () => {
               </div>
             </Link>
           ))}
-        </div>
 
+        </div>
       </div>
     </section>
   );
