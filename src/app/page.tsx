@@ -1,12 +1,34 @@
-import React from "react";
-import Banner from "@/components/HomePage/Banner";
-import Library from "@/components/HomePage/Library";
 
-const HomePage = () => {
+import Hero from "@/components/home/Hero";
+import WorkoutLibrary from "@/components/home/WorkoutLibrary";
+
+const getWorkouts = async () => {
+  const response = await fetch(
+    "https://api.abcz.workers.dev/api/fitlog",
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch workouts");
+  }
+
+  const data = await response.json();
+
+  return data;
+};
+
+const HomePage = async () => {
+  const workouts = await getWorkouts();
+
   return (
-    <main className="bg-[#171717]">
-      <Banner />
-      <Library />
+    <main>
+      {/* Hero Section */}
+      <Hero />
+
+      {/* Workout Library */}
+      <WorkoutLibrary workouts={workouts} />
     </main>
   );
 };
